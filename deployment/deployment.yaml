@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: data-backfill-from-kafka
+  labels:
+    app: data-backfill-from-kafka
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: data-backfill-from-kafka
+  template:
+    metadata:
+      labels:
+        app: data-backfill-from-kafka
+    spec:
+      containers:
+        - name: data-backfill-from-kafka
+          image: 411026478373.dkr.ecr.us-east-1.amazonaws.com/data-backfill-from-kafka:v0.1.0
+          imagePullPolicy: Always
+          command: ["java", "-jar", "/root/data-backfill-from-kafka-assembly-0.1.0.jar"]
+          env:
+            - name: BROKERS
+              value: b-2.logging.2wby21.c6.kafka.us-east-1.amazonaws.com:9094,b-3.logging.2wby21.c6.kafka.us-east-1.amazonaws.com:9094,b-1.logging.2wby21.c6.kafka.us-east-1.amazonaws.com:9094
+            - name: PROTOCOL
+              value: SSL
+            - name: OUTPUT_FOLDER
+              value: s3a://lucidmotors-vdw-dev/vdw-fact/data-backfilling
+            - name: KAFKA_OFFSET
+              value: earliest
+            - name: KAFKA_GROUP_ID
+              value: data-backfilling
+            - name: KAFKA_TOPIC
+              value: raw_car_message_test
+

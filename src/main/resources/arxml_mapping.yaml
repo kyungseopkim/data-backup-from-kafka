@@ -1,0 +1,17 @@
+---
+arxml:
+  - name: "parsed_arxml_33_4.json"
+    version: "33"
+    vin:
+      - "000008"
+      - "000009"
+      - "000010"
+      - "000015"
+      - "000018"
+      - "000035"
+      - "000036"
+    default: false
+
+  - name: "parsed_arxml_GPS_31.json"
+    version: "31"
+    default: true
